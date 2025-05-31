@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { obtenerUsuarios } from './services/userService';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import './index.css'; 
+import './app.css'; 
 
 
 
