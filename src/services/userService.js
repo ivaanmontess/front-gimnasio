@@ -1,9 +1,8 @@
-const API_URL = 'http://localhost:3000/api/usuarios'; 
-
+const API_URL = 'https://backend-gimnasio-fqfn.onrender.com';
 
 export const obtenerUsuarios = async () => {
   try {
-    const respuesta = await fetch('http://localhost:3000/api/usuarios');
+    const respuesta = await fetch(API_URL);
     const data = await respuesta.json();
     return data;
   } catch (error) {
@@ -12,8 +11,6 @@ export const obtenerUsuarios = async () => {
   }
 };
 
-
- 
 export const obtenerUsuariosPorVencer = async () => {
   try {
     const respuesta = await fetch(`${API_URL}/por-vencer`);
