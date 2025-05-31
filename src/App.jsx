@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { obtenerUsuarios } from './services/userService';
 import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import autoTable from 'jspdf-autotable';
 import './index.css'; 
 
 
@@ -21,22 +21,23 @@ function App() {
   }, []);
 
   
-  const exportarPDF = () => {
-    const doc = new jsPDF();
-    doc.text('Listado de Usuarios', 10, 10);
-    const filas = usuarios.map(u => [
-      u.nombre,
-      u.email,
-      u.telefono || '-',
-      u.fechaVencimiento?.substring(0, 10) || 'No registrada',
-      u.membresiaActiva ? 'Activa' : 'Vencida',
-    ]);
-    doc.autoTable({
-      head: [['Nombre', 'Email', 'Teléfono', 'Vencimiento', 'Estado']],
-      body: filas,
-    });
-    doc.save('usuarios.pdf');
-  };
+const exportarPDF = () => {
+  const doc = new jsPDF();
+  doc.text('Listado de Usuarios', 10, 10);
+  const filas = usuarios.map(u => [
+    u.nombre,
+    u.email,
+    u.telefono || '-',
+    u.fechaVencimiento?.substring(0, 10) || 'No registrada',
+    u.membresiaActiva ? 'Activa' : 'Vencida',
+  ]);
+  autoTable(doc, {
+    head: [['Nombre', 'Email', 'Teléfono', 'Vencimiento', 'Estado']],
+    body: filas,
+  });
+  doc.save('usuarios.pdf');
+};
+
 
   const usuariosFiltrados = usuarios.filter(u =>
     u.nombre.toLowerCase().includes(busqueda.toLowerCase())

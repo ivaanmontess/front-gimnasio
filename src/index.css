@@ -1,74 +1,60 @@
-* {
+body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  font-family: sans-serif;
+  background-color: #181818;
+  color: white;
 }
 
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #1c1c1c;
-  color: white;
+.dashboard-container {
   padding: 20px;
 }
 
-/* Encabezado principal */
-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-h1 {
+.titulo {
+  color: #873dc9;
   font-size: 3rem;
-  color: #6e3a87; 
   font-weight: bold;
-  text-transform: uppercase;
-  margin-bottom: 10px;
 }
 
-/* Contenedores */
-.container {
+.acciones {
+  margin: 20px 0;
   display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 40px;
+  gap: 10px;
 }
 
-/* Horarios y servicios */
-.card {
-  background-color: #6e3a87;
-  padding: 15px 20px;
+input[type="text"] {
+  padding: 8px;
   border-radius: 5px;
-  margin: 10px 0;
+  border: none;
+}
+
+button {
+  padding: 8px 12px;
+  background-color: #873dc9;
+  border: none;
   color: white;
-  font-size: 1.1rem;
-  text-transform: uppercase;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  cursor: pointer;
+  border-radius: 5px;
 }
 
-.card-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: white;
-  margin-bottom: 10px;
-  text-align: center;
+.lista-usuarios {
+  list-style: none;
+  padding: 0;
 }
 
-/* Pie de página */
-footer {
-  margin-top: 40px;
-  text-align: center;
-  font-size: 1rem;
-  color: white;
+.usuario-item {
+  margin-bottom: 15px;
+  background-color: #2a2a2a;
+  padding: 10px;
+  border-radius: 8px;
 }
 
-footer span {
-  display: block;
-  margin-top: 5px;
+.usuario-header {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
 }
 
-
-.logo {
-  width: 150px;
-  margin: 0 auto 10px;
-  display: block;
+.usuario-detalles {
+  margin-top: 8px;
 }
