@@ -1,0 +1,74 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #1c1c1c;
+  color: white;
+  padding: 20px;
+}
+
+/* Encabezado principal */
+header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+h1 {
+  font-size: 3rem;
+  color: #6e3a87; 
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+/* Contenedores */
+.container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+/* Horarios y servicios */
+.card {
+  background-color: #6e3a87;
+  padding: 15px 20px;
+  border-radius: 5px;
+  margin: 10px 0;
+  color: white;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Pie de página */
+footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 1rem;
+  color: white;
+}
+
+footer span {
+  display: block;
+  margin-top: 5px;
+}
+
+
+.logo {
+  width: 150px;
+  margin: 0 auto 10px;
+  display: block;
+}
