@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { obtenerUsuarios, crearUsuario } from './services/userService';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import './app.css'; 
+import './index.css'; 
 
 function App() {
   const [usuarios, setUsuarios] = useState([]);
