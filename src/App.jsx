@@ -1,4 +1,3 @@
-// App.jsx (Panel Web)
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
@@ -7,6 +6,7 @@ export default function App() {
   const [modoOscuro, setModoOscuro] = useState(false);
   const [dni, setDni] = useState('');
   const [usuario, setUsuario] = useState(null);
+  const [cargando, setCargando] = useState(false);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [nuevoUsuario, setNuevoUsuario] = useState({
     nombre: '',
@@ -15,7 +15,7 @@ export default function App() {
     direccion: '',
     fechaNacimiento: '',
     fechaVencimiento: '',
-    membresiaActiva: '',
+    membresiaActiva: false,
     fechaPago: ''
   });
 
@@ -32,29 +32,41 @@ export default function App() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setNuevoUsuario(prev => ({ ...prev, [name]: value }));
+
+    // Convertir select a boolean para membresía
+    if (name === 'membresiaActiva') {
+      setNuevoUsuario(prev => ({ ...prev, [name]: value === 'true' }));
+    } else {
+      setNuevoUsuario(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const buscarUsuario = async () => {
+    if (!dni) return alert('Ingresá un DNI válido');
+
+    setCargando(true);
     try {
       const res = await axios.get(`https://backend-gimnasio-fqfn.onrender.com/api/usuarios/${dni}`);
       setUsuario(res.data);
     } catch (err) {
       alert('Usuario no encontrado');
       setUsuario(null);
+    } finally {
+      setCargando(false);
     }
   };
 
   const handleCrearUsuario = async (e) => {
     e.preventDefault();
     try {
-      const usuarioAEnviar = {
-        ...nuevoUsuario,
-        membresiaActiva: nuevoUsuario.membresiaActiva === 'true'
-      };
+      const usuarioAEnviar = { ...nuevoUsuario };
+      if (!usuarioAEnviar.membresiaActiva) {
+        delete usuarioAEnviar.fechaPago;
+      }
 
       await axios.post(`https://backend-gimnasio-fqfn.onrender.com/api/usuarios`, usuarioAEnviar);
       alert('Usuario creado con éxito');
+
       setNuevoUsuario({
         nombre: '',
         email: '',
@@ -62,7 +74,7 @@ export default function App() {
         direccion: '',
         fechaNacimiento: '',
         fechaVencimiento: '',
-        membresiaActiva: '',
+        membresiaActiva: false,
         fechaPago: ''
       });
       setMostrarFormulario(false);
@@ -82,11 +94,16 @@ export default function App() {
         type="text"
         placeholder="12345678"
         value={dni}
-        onChange={(e) => setDni(e.target.value)}
+        onChange={(e) => {
+          const soloNumeros = e.target.value.replace(/\D/, '');
+          setDni(soloNumeros);
+        }}
       />
       <button onClick={buscarUsuario}>Buscar</button>
 
-      {usuario && (
+      {cargando ? (
+        <p>Buscando usuario...</p>
+      ) : usuario && (
         <div className="tarjeta-usuario">
           <p><strong>Nombre:</strong> {usuario.nombre}</p>
           <p><strong>Email:</strong> {usuario.email}</p>
@@ -108,14 +125,14 @@ export default function App() {
 
           <label>
             ¿Pagó?
-            <select name="membresiaActiva" value={nuevoUsuario.membresiaActiva} onChange={handleChange} required>
+            <select name="membresiaActiva" value={nuevoUsuario.membresiaActiva ? 'true' : 'false'} onChange={handleChange} required>
               <option value="">Seleccionar</option>
               <option value="true">Sí</option>
               <option value="false">No</option>
             </select>
           </label>
 
-          {nuevoUsuario.membresiaActiva === 'true' && (
+          {nuevoUsuario.membresiaActiva && (
             <input type="date" name="fechaPago" value={nuevoUsuario.fechaPago} onChange={handleChange} required />
           )}
 
