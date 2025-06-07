@@ -99,3 +99,20 @@ h2 {
     padding: 15px;
   }
 }
+
+.contenedor-principal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.titulo {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #6a0dad;
+}
+
+.buscador {
+  margin-bottom: 20px;
+}
