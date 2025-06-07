@@ -1,116 +1,127 @@
-import React, { useEffect, useState } from 'react';
-import { obtenerUsuarios, crearUsuario } from './services/userService';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
-import './index.css'; 
+// App.jsx (Panel Web)
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './App.css';
 
-function App() {
-  const [usuarios, setUsuarios] = useState([]);
-  const [busqueda, setBusqueda] = useState('');
-  const [activo, setActivo] = useState(null);
+export default function App() {
+  const [modoOscuro, setModoOscuro] = useState(false);
+  const [dni, setDni] = useState('');
+  const [usuario, setUsuario] = useState(null);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [nuevoUsuario, setNuevoUsuario] = useState({
     nombre: '',
     email: '',
     telefono: '',
+    direccion: '',
+    fechaNacimiento: '',
     fechaVencimiento: '',
+    membresiaActiva: '',
+    fechaPago: ''
   });
 
   useEffect(() => {
-    cargarUsuarios();
+    const tema = localStorage.getItem('tema');
+    if (tema) setModoOscuro(tema === 'oscuro');
   }, []);
 
-  const cargarUsuarios = async () => {
-    const datos = await obtenerUsuarios();
-    setUsuarios(datos);
+  const toggleTema = () => {
+    const nuevoTema = !modoOscuro;
+    setModoOscuro(nuevoTema);
+    localStorage.setItem('tema', nuevoTema ? 'oscuro' : 'claro');
   };
-
-  const exportarPDF = () => {
-    const doc = new jsPDF();
-    doc.text('Listado de Usuarios', 10, 10);
-    const filas = usuarios.map(u => [
-      u.nombre,
-      u.email,
-      u.telefono || '-',
-      u.fechaVencimiento?.substring(0, 10) || 'No registrada',
-      u.membresiaActiva ? 'Activa' : 'Vencida',
-    ]);
-    autoTable(doc, {
-      head: [['Nombre', 'Email', 'Teléfono', 'Vencimiento', 'Estado']],
-      body: filas,
-    });
-    doc.save('usuarios.pdf');
-  };
-
-  const usuariosFiltrados = usuarios.filter(u =>
-    u.nombre.toLowerCase().includes(busqueda.toLowerCase())
-  );
 
   const handleChange = (e) => {
-    setNuevoUsuario({ ...nuevoUsuario, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setNuevoUsuario(prev => ({ ...prev, [name]: value }));
+  };
+
+  const buscarUsuario = async () => {
+    try {
+      const res = await axios.get(`https://backend-gimnasio-fqfn.onrender.com/api/usuarios/${dni}`);
+      setUsuario(res.data);
+    } catch (err) {
+      alert('Usuario no encontrado');
+      setUsuario(null);
+    }
   };
 
   const handleCrearUsuario = async (e) => {
     e.preventDefault();
     try {
-      await crearUsuario(nuevoUsuario);
-      setNuevoUsuario({ nombre: '', email: '', telefono: '', fechaVencimiento: '' });
+      const usuarioAEnviar = {
+        ...nuevoUsuario,
+        membresiaActiva: nuevoUsuario.membresiaActiva === 'true'
+      };
+
+      await axios.post(`https://backend-gimnasio-fqfn.onrender.com/api/usuarios`, usuarioAEnviar);
+      alert('Usuario creado con éxito');
+      setNuevoUsuario({
+        nombre: '',
+        email: '',
+        telefono: '',
+        direccion: '',
+        fechaNacimiento: '',
+        fechaVencimiento: '',
+        membresiaActiva: '',
+        fechaPago: ''
+      });
       setMostrarFormulario(false);
-      cargarUsuarios();
     } catch (error) {
       alert('Error al crear usuario');
     }
   };
 
   return (
-    <div className="dashboard-container">
-      <h1 className="titulo">Panel de Administración</h1>
+    <div className={modoOscuro ? 'modo-oscuro' : 'modo-claro'}>
+      <button onClick={toggleTema}>
+        {modoOscuro ? '☀️ Modo Claro' : '🌙 Modo Oscuro'}
+      </button>
 
-      <div className="acciones">
-        <input
-          type="text"
-          placeholder="Buscar usuario..."
-          value={busqueda}
-          onChange={(e) => setBusqueda(e.target.value)}
-        />
-        <button onClick={() => setMostrarFormulario(!mostrarFormulario)}>
-          {mostrarFormulario ? 'Cancelar' : 'Crear Usuario'}
-        </button>
-        <button onClick={exportarPDF}>Exportar PDF</button>
-      </div>
+      <h2>Buscar Usuario por DNI</h2>
+      <input
+        type="text"
+        placeholder="12345678"
+        value={dni}
+        onChange={(e) => setDni(e.target.value)}
+      />
+      <button onClick={buscarUsuario}>Buscar</button>
+
+      {usuario && (
+        <div className="tarjeta-usuario">
+          <p><strong>Nombre:</strong> {usuario.nombre}</p>
+          <p><strong>Email:</strong> {usuario.email}</p>
+          <p><strong>Teléfono:</strong> {usuario.telefono}</p>
+          <p><strong>Fecha de pago:</strong> {usuario.fechaPago?.substring(0, 10) || '-'}</p>
+        </div>
+      )}
+
+      <button onClick={() => setMostrarFormulario(true)}>+ Crear nuevo usuario</button>
 
       {mostrarFormulario && (
-        <form className="formulario-usuario" onSubmit={handleCrearUsuario}>
+        <form onSubmit={handleCrearUsuario} className="formulario-usuario">
           <input type="text" name="nombre" placeholder="Nombre" value={nuevoUsuario.nombre} onChange={handleChange} required />
           <input type="email" name="email" placeholder="Email" value={nuevoUsuario.email} onChange={handleChange} required />
           <input type="text" name="telefono" placeholder="Teléfono" value={nuevoUsuario.telefono} onChange={handleChange} />
+          <input type="text" name="direccion" placeholder="Dirección" value={nuevoUsuario.direccion} onChange={handleChange} />
+          <input type="date" name="fechaNacimiento" value={nuevoUsuario.fechaNacimiento} onChange={handleChange} />
           <input type="date" name="fechaVencimiento" value={nuevoUsuario.fechaVencimiento} onChange={handleChange} required />
+
+          <label>
+            ¿Pagó?
+            <select name="membresiaActiva" value={nuevoUsuario.membresiaActiva} onChange={handleChange} required>
+              <option value="">Seleccionar</option>
+              <option value="true">Sí</option>
+              <option value="false">No</option>
+            </select>
+          </label>
+
+          {nuevoUsuario.membresiaActiva === 'true' && (
+            <input type="date" name="fechaPago" value={nuevoUsuario.fechaPago} onChange={handleChange} required />
+          )}
+
           <button type="submit">Guardar</button>
         </form>
       )}
-
-      <ul className="lista-usuarios">
-        {usuariosFiltrados.map((usuario, i) => (
-          <li key={i} className="usuario-item">
-            <div
-              className="usuario-header"
-              onClick={() => setActivo(activo === i ? null : i)}
-            >
-              <strong>{usuario.nombre}</strong>
-              <span>{usuario.membresiaActiva ? '✅ Activa' : '❌ Vencida'}</span>
-            </div>
-            {activo === i && (
-              <div className="usuario-detalles">
-                <p><strong>Email:</strong> {usuario.email}</p>
-                <p><strong>Teléfono:</strong> {usuario.telefono || '-'}</p>
-                <p><strong>Vence:</strong> {usuario.fechaVencimiento?.substring(0, 10) || '-'}</p>
-              </div>
-            )}
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }
-
-export default App;
