@@ -1,5 +1,6 @@
 const API_URL = 'https://backend-gimnasio-fqfn.onrender.com/api/usuarios';
 
+// Obtener todos los usuarios
 export const obtenerUsuarios = async () => {
   try {
     const respuesta = await fetch(API_URL);
@@ -11,6 +12,7 @@ export const obtenerUsuarios = async () => {
   }
 };
 
+// Obtener usuarios con membresía próxima a vencer
 export const obtenerUsuariosPorVencer = async () => {
   try {
     const respuesta = await fetch(`${API_URL}/por-vencer`);
@@ -19,5 +21,20 @@ export const obtenerUsuariosPorVencer = async () => {
   } catch (error) {
     console.error('❌ Error en obtenerUsuariosPorVencer:', error.message);
     return [];
+  }
+};
+
+// Crear un nuevo usuario
+export const crearUsuario = async (nuevoUsuario) => {
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(nuevoUsuario),
+    });
+    return await res.json();
+  } catch (error) {
+    console.error('❌ Error al crear usuario:', error);
+    throw error;
   }
 };
