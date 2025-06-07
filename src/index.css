@@ -14,29 +14,55 @@ body {
   color: #873dc9;
   font-size: 3rem;
   font-weight: bold;
+  margin-bottom: 20px;
 }
 
+/* Sección de acciones: buscador, botones */
 .acciones {
-  margin: 20px 0;
+  margin-bottom: 20px;
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
-input[type="text"] {
-  padding: 8px;
+.acciones input[type="text"] {
+  padding: 8px 12px;
   border-radius: 5px;
   border: none;
+  flex: 1;
+  min-width: 200px;
 }
 
-button {
+.acciones button {
   padding: 8px 12px;
   background-color: #873dc9;
   border: none;
   color: white;
   cursor: pointer;
   border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
+.acciones button:hover {
+  background-color: #732d91;
+}
+
+/* Formulario de creación de usuario */
+.formulario-usuario {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.formulario-usuario input {
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+}
+
+/* Lista de usuarios */
 .lista-usuarios {
   list-style: none;
   padding: 0;
@@ -53,36 +79,11 @@ button {
   display: flex;
   justify-content: space-between;
   cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 
 .usuario-detalles {
   margin-top: 8px;
-}
-
-.acciones {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
-
-.acciones input[type="text"] {
-  padding: 8px 12px;
-  border-radius: 5px;
-  border: none;
-}
-
-.acciones button {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: #8e44ad;
-  color: white;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-}
-
-.acciones button:hover {
-  background-color: #732d91;
+  font-size: 0.95rem;
 }
