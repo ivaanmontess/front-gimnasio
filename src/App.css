@@ -1,71 +1,89 @@
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #121212;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: #181818;
   color: white;
 }
 
-.dashboard {
-  max-width: 800px;
-  margin: 40px auto;
+.dashboard-container {
   padding: 20px;
-  background: #1f1f1f;
-  border-radius: 8px;
-  box-shadow: 0 0 20px rgba(128, 0, 128, 0.3);
 }
 
-h1 {
-  text-align: center;
-  color: #c57fff;
+.titulo {
+  color: #873dc9;
+  font-size: 3rem;
+  font-weight: bold;
   margin-bottom: 20px;
 }
 
-.buscador {
-  width: 100%;
+/* Sección de acciones: buscador, botones */
+.acciones {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.acciones input[type="text"] {
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: none;
+  flex: 1;
+  min-width: 200px;
+}
+
+.acciones button {
+  padding: 8px 12px;
+  background-color: #873dc9;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.acciones button:hover {
+  background-color: #732d91;
+}
+
+/* Formulario de creación de usuario */
+.formulario-usuario {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.formulario-usuario input {
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+}
+
+/* Lista de usuarios */
+.lista-usuarios {
+  list-style: none;
+  padding: 0;
+}
+
+.usuario-item {
+  margin-bottom: 15px;
+  background-color: #2a2a2a;
   padding: 10px;
-  border: none;
-  margin-bottom: 20px;
-  border-radius: 4px;
-  background-color: #2a2a2a;
-  color: white;
+  border-radius: 8px;
 }
 
-.tabla {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-.tabla th,
-.tabla td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #444;
-}
-
-.fila-usuario {
+.usuario-header {
+  display: flex;
+  justify-content: space-between;
   cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 
-.fila-usuario:hover {
-  background-color: #2a2a2a;
-}
-
-.fila-expandida {
-  background-color: #333;
-}
-
-.exportar {
-  background-color: #9d4edd;
-  color: white;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  display: block;
-  margin: 0 auto;
-}
-
-.exportar:hover {
-  background-color: #7b2cbf;
+.usuario-detalles {
+  margin-top: 8px;
+  font-size: 0.95rem;
 }
