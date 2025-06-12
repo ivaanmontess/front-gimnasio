@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
+import ActualizarMembresia from './components/ActualizarMembresia';
 
 export default function App() {
   const [modoOscuro, setModoOscuro] = useState(false);
@@ -99,6 +100,8 @@ export default function App() {
             <p><strong>Email:</strong> {usuario.email}</p>
             <p><strong>Teléfono:</strong> {usuario.telefono}</p>
             <p><strong>Fecha de pago:</strong> {usuario.fechaPago?.substring(0, 10) || '-'}</p>
+
+            <ActualizarMembresia idUsuario={usuario._id} />
           </div>
         )}
 
