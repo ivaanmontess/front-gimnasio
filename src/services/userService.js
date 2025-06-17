@@ -1,4 +1,4 @@
-const API_URL = 'https://backend-gimnasio-fqfn.onrender.com/';
+const API_URL = 'https://backend-gimnasio-fqfn.onrender.com';
 
 // Obtener todos los usuarios
 export const obtenerUsuarios = async () => {

@@ -27,7 +27,7 @@ export default function CrearUsuario({ onUsuarioCreado }) {
         membresiaActiva: nuevoUsuario.membresiaActiva === 'true'
       };
 
-      await axios.post(`https://backend-gimnasio-fqfn.onrender.com/`, usuarioAEnviar);
+      await axios.post(`https://backend-gimnasio-fqfn.onrender.com`, usuarioAEnviar);
       alert('Usuario creado con éxito');
       setNuevoUsuario({
         dni: '',
