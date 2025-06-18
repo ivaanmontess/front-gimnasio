@@ -1,4 +1,3 @@
-// App.jsx (Panel Web)
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
@@ -39,7 +38,7 @@ export default function App() {
 
   const buscarUsuario = async () => {
     try {
-      const res = await axios.get(`https://backend-gimnasio-fqfn.onrender.com/${dni}`);
+      const res = await axios.get(`https://backend-gimnasio-fqfn.onrender.com/usuarios/${dni}`);
       setUsuario(res.data);
     } catch (err) {
       alert('Usuario no encontrado');
@@ -55,7 +54,7 @@ export default function App() {
         membresiaActiva: nuevoUsuario.membresiaActiva === 'true'
       };
 
-      await axios.post(`https://backend-gimnasio-fqfn.onrender.com`, usuarioAEnviar);
+      await axios.post(`https://backend-gimnasio-fqfn.onrender.com/usuarios`, usuarioAEnviar);
       alert('Usuario creado con éxito');
       setNuevoUsuario({
         dni: '',
