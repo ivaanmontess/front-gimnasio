@@ -7,7 +7,7 @@ const ActualizarMembresia = ({ idUsuario }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`https://backend-gimnasio-fqfn.onrender.com/usuarios/${idUsuario}`, {
+      await axios.put(`https://backend-gimnasio-fqfn.onrender.com/${idUsuario}`, {
         membresiaActiva: true,
         fechaPago
       });
